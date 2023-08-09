@@ -2,7 +2,7 @@
 from .models import *
 from .serializers import FlightSerializer, ReservationSerializer, PassengerSerializer
 from rest_framework import viewsets
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from .permissions import IsAdminOrReadOnly
 
 # Create your views here.
@@ -16,7 +16,15 @@ class FlightView(viewsets.ModelViewSet):
 class ReservationView(viewsets.ModelViewSet): 
     queryset=Reservation.objects.all()
     serializer_class=ReservationSerializer
-   
+    # permission_classes=[IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.requerst.user.is_staff:
+            return queryset
+        return queryset.filter(user=self.request.user)
+ 
+      
 
 class PassengerView(viewsets.ModelViewSet): 
     queryset=Passenger.objects.all()

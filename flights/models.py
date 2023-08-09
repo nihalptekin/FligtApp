@@ -9,7 +9,7 @@ class Flight(models.Model):
     estimated_time=models.TimeField()
 
     def __str__(self):
-        return f"{self.flight_number} - {self.departure_city}-{self.arrival_city}"
+        return f"{self.flight_number} - {self.departure_city} - {self.arrival_city}"
 
 class Passenger(models.Model): 
     first_name=models.CharField(max_length=30)
